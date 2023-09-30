@@ -25,7 +25,6 @@ function App() {
 
     if (correctAnswers.includes(id) && score < 5) {
       setScore(prevState => prevState + 1)
-
     } else if (score === 5) {
       setHome(prevState => prevState = !prevState)
       setScore(0)
