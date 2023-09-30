@@ -120,11 +120,11 @@ body {
   cursor: pointer;
 }
 
-input[type="radio"] {
+/* input[type="radio"] {
   position: absolute;
   opacity: 0;
   cursor: pointer;
-}
+} */
 
 label {
   display: inline-block;
@@ -163,7 +163,10 @@ input[type="radio"]:checked+label {
   grid-area: four;
 }
 
-.check-answers-button {
+.back-home-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: #F5F7FB;
   font-family: Inter;
   font-size: 0.625rem;
@@ -223,7 +226,7 @@ input[type="radio"]:checked+label {
     font-size: .8rem;
   }
 
-  .check-answers-button {
+  .back-home-button {
     font-size: 1rem;
     padding: 1.5em;
     width: 300px;
@@ -264,7 +267,7 @@ input[type="radio"]:checked+label {
     font-size: 2rem;
   }
 
-  .check-answers-button {
+  .back-home-button {
     font-size: 3rem;
     padding: 2em;
     width: 500px;

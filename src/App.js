@@ -10,18 +10,31 @@ function App() {
   const [home, setHome] = useState(false)
   const [question, setQuestion] = useState([])
   const [selected, setSelected] = useState(false)
-
-  const checkForSelection = () => {
-    setSelected(prevState => prevState = !prevState)
-  }
+  const [score, setScore] = useState(0)
 
   const handleClick = () => {
     setHome(prevState => prevState = !prevState)
   }
 
   const getIdClick = (event) => {
+    // setSelected(prevState => prevState = !prevState)
     const id = event.currentTarget.dataset.id
-    console.log(id)
+    const correctAnswers = question.map(item => {
+      return item.correct_answer
+    })
+
+    if (correctAnswers.includes(id) && score < 5) {
+      setScore(prevState => prevState + 1)
+    } else if (score === 5) {
+      setHome(prevState => prevState = !prevState)
+      setScore(0)
+    }
+    return id
+  }
+
+  const backToHome = () => {
+    setHome(prevState => prevState = !prevState)
+    setScore(0)
   }
 
   const randomlyInsertString = (targetArray, stringToInsert) => {
@@ -41,7 +54,7 @@ function App() {
       .then(data => {
         setQuestion(data.results)
       })
-  }, [])
+  }, [home])
 
 
   console.log(question)
@@ -54,6 +67,7 @@ function App() {
         // incorrectAnswer={item.incorrect_answers.map(answer => decode(answer))}
         answers={randomlyInsertString(item.incorrect_answers, item.correct_answer)}
         getId={getIdClick}
+      // styles={styles}
       />
     )
   })
@@ -71,8 +85,9 @@ function App() {
       />}
       {home && <h1 className="quiz-heading">Quizzical</h1>}
       {home && questionData}
-      {home && <button className="check-answers-button">Check Answers</button>}
-    </div>
+      {home && <p>Your Score: {score}</p>}
+      {home && <button onClick={backToHome} className="back-home-button" > Back to Home</button>}
+    </div >
   );
 }
 
