@@ -111,6 +111,7 @@ body {
 
 .answer {
   text-align: center;
+  align-self: center;
   padding: 0.25em .5em;
   border-radius: 8px;
   border: 0.8px solid #4D5B9E;

@@ -8,13 +8,37 @@ import { decode } from "html-entities"
 function App() {
 
   const [home, setHome] = useState(false)
-  const [question, setQuestion] = React.useState([])
+  const [question, setQuestion] = useState([])
+  const [options, setOptions] = useState([])
+
+  const shuffleArray = (array) => {
+    const shuffled = [...array]
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      let j = 0
+      j = Math.floor(Math.random() * (i + 1))
+      const temp = array[i]
+      array[i] = array[j]
+      array[j] = temp
+    }
+
+    return shuffled
+  }
+
+  const randomlyInsertString = (targetArray, stringToInsert) => {
+    const randomIndex = Math.floor(Math.random() * (targetArray.length + 1))
+
+    const firstPart = targetArray.slice(0, randomIndex)
+    const secondPart = targetArray.slice(randomIndex)
+
+    const newArray = [...firstPart, stringToInsert, ...secondPart]
+
+    return newArray
+  }
 
   useEffect(() => {
     fetch("https://opentdb.com/api.php?amount=5&type=multiple")
       .then(response => response.json())
       .then(data => {
-        console.log(data)
         setQuestion(data.results)
       })
   }, [])
@@ -23,40 +47,18 @@ function App() {
     setHome(prevState => prevState = !prevState)
   }
 
+  console.log(question)
+
   const questionData = question.map(item => {
     return (
       <Questions
         item={decode(item.question)}
-        correctAnswer={decode(item.correct_answer)}
-        incorrectAnswer={item.incorrect_answers.map(answer => decode(answer))}
+        answers={randomlyInsertString(item.incorrect_answers, item.correct_answer)}
       />
     )
   })
 
   console.log(questionData)
-
-  const correctArray = question.map(item => item.correct_answer)
-
-  const incorrectArray = question.map(item => item.incorrect_answers)
-
-  const answers = correctArray.concat(incorrectArray)
-
-  // let answersOne = []
-  // let answersTwo = []
-  // let answersThree = []
-  // let answersFour = []
-  // let answersFive = []
-
-  // answersOne.push(answers[0])
-  // answersOne.push(answers[5])
-  // answersTwo.push(answers[1])
-  // answersTwo.push(answers[6])
-  // answersThree.push(answers[2])
-  // answersThree.push(answers[7])
-  // answersFour.push(answers[3])
-  // answersFour.push(answers[8])
-  // answersFive.push(answers[4])
-  // answersFive.push(answers[9])
 
   return (
     <div className="app">
