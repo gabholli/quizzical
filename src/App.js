@@ -58,6 +58,7 @@ function App() {
       {!home && <HomePage
         handleClick={handleClick}
       />}
+      {home && <h1 className="quiz-heading">Quizzical</h1>}
       {home && questionData}
       {home && <button className="check-answers-button">Check Answers</button>}
     </div>

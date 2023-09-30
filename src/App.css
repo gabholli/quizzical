@@ -209,9 +209,9 @@ input[type="radio"]:checked+label {
 }
 
 @media (min-width: 1024px) {
-  .app {
+  /* .app {
     height: 100vh;
-  }
+  } */
 
   .prompt {
     font-size: 1.2rem;
@@ -228,7 +228,10 @@ input[type="radio"]:checked+label {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
 
+  .quiz-heading {
+    font-size: 5rem;
   }
 }
 
@@ -243,6 +246,10 @@ input[type="radio"]:checked+label {
 }
 
 @media (min-width: 2560px) {
+  .quiz-heading {
+    font-size: 10rem;
+  }
+
   .questions {
     width: 1500px;
   }
@@ -253,5 +260,11 @@ input[type="radio"]:checked+label {
 
   .answer {
     font-size: 2rem;
+  }
+
+  .check-answers-button {
+    font-size: 3rem;
+    padding: 2em;
+    width: 500px;
   }
 }
