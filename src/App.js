@@ -9,6 +9,20 @@ function App() {
 
   const [home, setHome] = useState(false)
   const [question, setQuestion] = useState([])
+  const [selected, setSelected] = useState(false)
+
+  const checkForSelection = () => {
+    setSelected(prevState => prevState = !prevState)
+  }
+
+  const handleClick = () => {
+    setHome(prevState => prevState = !prevState)
+  }
+
+  const getIdClick = (event) => {
+    const id = event.currentTarget.dataset.id
+    console.log(id)
+  }
 
   const randomlyInsertString = (targetArray, stringToInsert) => {
     const randomIndex = Math.floor(Math.random() * (targetArray.length + 1))
@@ -29,9 +43,6 @@ function App() {
       })
   }, [])
 
-  const handleClick = () => {
-    setHome(prevState => prevState = !prevState)
-  }
 
   console.log(question)
 
@@ -42,10 +53,10 @@ function App() {
         // correctAnswer={decode(item.correct_answer)}
         // incorrectAnswer={item.incorrect_answers.map(answer => decode(answer))}
         answers={randomlyInsertString(item.incorrect_answers, item.correct_answer)}
+        getId={getIdClick}
       />
     )
   })
-
 
   return (
     <div className="app">

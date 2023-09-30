@@ -117,6 +117,7 @@ body {
   border-radius: 8px;
   border: 0.8px solid #4D5B9E;
   font-size: 0.625rem;
+  cursor: pointer;
 }
 
 input[type="radio"] {
@@ -174,7 +175,8 @@ input[type="radio"]:checked+label {
   width: 120px;
   height: 35px;
   flex-shrink: 0;
-  margin: 1.875em 0 1.875em
+  margin: 1.875em 0 1.875em;
+  cursor: pointer;
 }
 
 @media (min-width: 768px) {
