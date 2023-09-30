@@ -9,20 +9,6 @@ function App() {
 
   const [home, setHome] = useState(false)
   const [question, setQuestion] = useState([])
-  const [options, setOptions] = useState([])
-
-  const shuffleArray = (array) => {
-    const shuffled = [...array]
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      let j = 0
-      j = Math.floor(Math.random() * (i + 1))
-      const temp = array[i]
-      array[i] = array[j]
-      array[j] = temp
-    }
-
-    return shuffled
-  }
 
   const randomlyInsertString = (targetArray, stringToInsert) => {
     const randomIndex = Math.floor(Math.random() * (targetArray.length + 1))
