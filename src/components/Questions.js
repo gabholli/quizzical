@@ -10,10 +10,10 @@ function Questions(props) {
                 <h1 className="prompt">
                     {props.item}
                 </h1>
-                <p onClick={props.getId} className="answer" data-id={props.answers[0]}>{props.answers[0]}</p>
+                {/* <p onClick={props.getId} className="answer" data-id={props.answers[0]}>{props.answers[0]}</p>
                 <p onClick={props.getId} className="answer" data-id={props.answers[1]}>{props.answers[1]}</p>
                 <p onClick={props.getId} className="answer" data-id={props.answers[2]}>{props.answers[2]}</p>
-                <p onClick={props.getId} className="answer" data-id={props.answers[3]}>{props.answers[3]}</p>
+                <p onClick={props.getId} className="answer" data-id={props.answers[3]}>{props.answers[3]}</p> */}
             </div>
         </div >
     )
