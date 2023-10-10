@@ -9,6 +9,7 @@ function App() {
   const [home, setHome] = useState(false)
   const [questions, setQuestions] = useState([])
   const [completed, setCompleted] = useState(false)
+  const [buttonColor, setButtonColor] = useState(false)
   const [score, setScore] = useState(0)
 
   const handleEnterClick = () => {
@@ -25,13 +26,16 @@ function App() {
   }, [home])
 
   const shuffleArray = (array) => {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1))
+    const shuffled = [...array]
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      let j = 0
+      j = Math.floor(Math.random() * (i + 1))
       const temp = array[i]
       array[i] = array[j]
       array[j] = temp
     }
-    return array
+
+    return shuffled
   }
 
   const generateQuestionData = () => {
@@ -55,8 +59,14 @@ function App() {
   }
 
   const getIdClick = (event) => {
-    // setSelected(prevState => prevState = !prevState)
     const id = event.currentTarget.dataset.id
+    if (!buttonColor) {
+      event.target.style.backgroundColor = "#D6DBF5"
+      setButtonColor(true)
+    } else {
+      event.target.style.backgroundColor = "white"
+      setButtonColor(false)
+    }
     if (id === "true" && score < 5) {
       setScore(prevScore => prevScore + 1)
     }

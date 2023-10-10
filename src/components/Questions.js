@@ -3,7 +3,6 @@ import { decode } from "html-entities"
 
 function Questions(props) {
 
-
     return (
         <div className="questions">
             <div className="question">
