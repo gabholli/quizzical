@@ -1,5 +1,5 @@
 import React from "react"
-import { decode } from "html-entities"
+import { useRef } from "react"
 
 function Questions(props) {
 
@@ -7,25 +7,29 @@ function Questions(props) {
         <div className="questions">
             <div className="question">
                 <h1 className="prompt">
-                    {decode(props.item)}
+                    {props.item}
                 </h1>
-                {/* <p onClick={props.getId}
+                <p
+                    onClick={props.getId}
                     className="answer"
                     data-id={props.answers[0] === props.correctAnswer}>
                     {props.answers[0]}</p>
-                <p onClick={props.getId}
+                <p
+                    onClick={props.getId}
                     className="answer"
                     data-id={props.answers[1] === props.correctAnswer}>
                     {props.answers[1]}</p>
-                <p onClick={props.getId}
+                <p
+                    onClick={props.getId}
                     className="answer"
                     data-id={props.answers[2] === props.correctAnswer}>
                     {props.answers[2]}</p>
-                <p onClick={props.getId}
+                <p
+                    onClick={props.getId}
                     className="answer"
                     data-id={props.answers[3] === props.correctAnswer}>
-                    {props.answers[3]}</p> */}
-                <input type="radio"
+                    {props.answers[3]}</p>
+                {/* <input type="radio"
                     name="questionOne"
                     id="question-one-one"
                     value="question-one-one"
@@ -48,7 +52,7 @@ function Questions(props) {
                     id="question-one-four"
                     value="question-one-four"
                     onChange={props.handleChange} />
-                <label htmlFor="question-one-four">{props.answers[3]}</label>
+                <label htmlFor="question-one-four">{props.answers[3]}</label> */}
             </div>
         </div >
     )
