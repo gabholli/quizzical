@@ -22,6 +22,10 @@ body {
   font-family: Karla, sans-serif;
 }
 
+.hidden {
+  background-color: "red";
+}
+
 .app {
   position: relative;
   display: flex;
@@ -120,11 +124,23 @@ body {
   cursor: pointer;
 }
 
+button {
+  border-radius: 7.942px;
+  background: #D6DBF5;
+  color: #293264;
+  text-align: center;
+  font-family: Inter;
+  font-size: 0.625rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
 /* input[type="radio"] {
   position: absolute;
   opacity: 0;
   cursor: pointer;
-} */
+}
 
 label {
   display: inline-block;
@@ -145,7 +161,7 @@ input[type="radio"]:checked+label {
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-}
+} */
 
 .one {
   grid-area: one;
