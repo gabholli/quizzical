@@ -3,11 +3,17 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import HomePage from "./components/HomePage"
 import Questions from "./components/Questions"
+import { decode } from "html-entities"
 
 function App() {
 
   const [home, setHome] = useState(false)
-  const [questions, setQuestions] = useState([])
+  // const [questions, setQuestions] = useState([])
+  const [questionOne, setQuestionOne] = useState()
+  const [questionTwo, setQuestionTwo] = useState()
+  const [questionThree, setQuestionThree] = useState()
+  const [questionFour, setQuestionFour] = useState()
+  const [questionFive, setQuestionFive] = useState()
   const [completed, setCompleted] = useState(false)
   const [buttonColor, setButtonColor] = useState(false)
   const [score, setScore] = useState(0)
@@ -20,63 +26,57 @@ function App() {
     fetch("https://opentdb.com/api.php?amount=5&type=multiple")
       .then(response => response.json())
       .then(data => {
-        console.log(data)
-        setQuestions(data.results)
+        console.log(data.results)
+        // setQuestions(data.results)
+        setQuestionOne(data.results[0])
+        setQuestionTwo(data.results[1])
+        setQuestionThree(data.results[2])
+        setQuestionFour(data.results[3])
+        setQuestionFive(data.results[4])
       })
   }, [home])
 
-  const shuffleArray = (array) => {
-    const shuffled = [...array]
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      let j = 0
-      j = Math.floor(Math.random() * (i + 1))
-      const temp = array[i]
-      array[i] = array[j]
-      array[j] = temp
-    }
+  // const generateQuestionData = () => {
+  //   const questionData = questions.map(item => {
+  //     return (
+  //       <Questions
+  //         // item={item}
+  //         key={item.question}
+  //         item={item.question}
+  //         correctAnswer={item.correct_answer}
+  //         incorrectAnswer={item.incorrect_answers.map(answer => answer)}
+  //         // answers={randomlyInsertString(item.incorrect_answers, item.correct_answer)}
+  //         answers={shuffleArray(item.incorrect_answers.concat(item.correct_answer))}
+  //         // handleChange={handleChange}
+  //         getId={getIdClick}
+  //       // styles={styles}
+  //       />
+  //     )
+  //   })
+  //   return questionData
+  // }
 
-    return shuffled
-  }
 
-  const generateQuestionData = () => {
-    const questionData = questions.map(item => {
-      return (
-        <Questions
-          // item={item}
-          key={item.question}
-          item={item.question}
-          correctAnswer={item.correct_answer}
-          incorrectAnswer={item.incorrect_answers.map(answer => answer)}
-          // answers={randomlyInsertString(item.incorrect_answers, item.correct_answer)}
-          answers={shuffleArray(item.incorrect_answers.concat(item.correct_answer))}
-          // handleChange={handleChange}
-          getId={getIdClick}
-        // styles={styles}
-        />
-      )
-    })
-    return questionData
-  }
 
-  const getIdClick = (event) => {
-    const id = event.currentTarget.dataset.id
-    if (!buttonColor) {
-      event.target.style.backgroundColor = "#D6DBF5"
-      setButtonColor(true)
-    } else {
-      event.target.style.backgroundColor = "white"
-      setButtonColor(false)
-    }
-    if (id === "true" && score < 5) {
-      setScore(prevScore => prevScore + 1)
-    }
+  // const getIdClick = (event) => {
+  //   const id = event.currentTarget.dataset.id
+  //   if (!buttonColor) {
+  //     event.target.style.backgroundColor = "#D6DBF5"
+  //     setButtonColor(true)
+  //   } else {
+  //     event.target.style.backgroundColor = "white"
+  //     setButtonColor(false)
+  //   }
+  //   if (id === "true" && score < 5) {
+  //     setScore(prevScore => prevScore + 1)
+  //   }
 
-    if (score === 5) {
-      setCompleted(true)
-    }
+  //   if (score === 5) {
+  //     setCompleted(true)
+  //   }
 
-    console.log(id)
-  }
+  //   console.log(id)
+  // }
 
   const backToHome = () => {
     setHome(prevState => prevState = !prevState)
@@ -84,7 +84,7 @@ function App() {
     setCompleted(false)
   }
 
-  console.log(questions)
+  // console.log(questionOne.correct_answer.concat(questionOne.incorrect_answers))
 
   return (
     <div className="app">
@@ -98,7 +98,30 @@ function App() {
         handleClick={handleEnterClick}
       />}
       {home && <h1 className="quiz-heading">Quizzical</h1>}
-      {home && generateQuestionData()}
+      {/* {home && <p>{questionOne.question}</p>}
+      {home && <p>{questionTwo.question}</p>} */}
+      <Questions
+        questionOne={decode(questionOne?.question)}
+        answerOneCorrect={decode(questionOne?.correct_answer)}
+        answerOneIncorrect={questionOne?.incorrect_answers}
+
+        questionTwo={decode(questionTwo?.question)}
+        answerTwoCorrect={decode(questionTwo?.correct_answer)}
+        answerTwoIncorrect={questionTwo?.incorrect_answers}
+
+        questionThree={decode(questionThree?.question)}
+        answerThreeCorrect={decode(questionThree?.correct_answer)}
+        answerThreeIncorrect={questionThree?.incorrect_answers}
+
+        questionFour={decode(questionFour?.question)}
+        answerFourCorrect={decode(questionFour?.correct_answer)}
+        answerFourIncorrect={questionFour?.incorrect_answers}
+
+        questionFive={decode(questionFive?.question)}
+        answerFiveCorrect={decode(questionFive?.correct_answer)}
+        answerFiveIncorrect={questionFive?.incorrect_answers}
+
+      />
       {home && completed && <p>Your Score: {score}</p>}
       {home && <button onClick={backToHome} className="back-home-button" >{score === 5 ? "New Game" : "Back To Home"}</button>}
     </div >

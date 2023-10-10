@@ -124,7 +124,7 @@ body {
   cursor: pointer;
 }
 
-button {
+/* button {
   border-radius: 7.942px;
   background: white;
   color: #293264;
@@ -134,9 +134,9 @@ button {
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-}
+} */
 
-/* input[type="radio"] {
+input[type="radio"] {
   position: absolute;
   opacity: 0;
   cursor: pointer;
@@ -161,7 +161,7 @@ input[type="radio"]:checked+label {
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-} */
+}
 
 .one {
   grid-area: one;
