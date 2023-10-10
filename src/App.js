@@ -25,6 +25,15 @@ function App() {
       })
   }, [home])
 
+  const shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      const temp = array[i]
+      array[i] = array[j]
+      array[j] = temp
+    }
+    return array
+  }
 
   const generateQuestionData = () => {
     const questionData = questions.map(item => {
@@ -34,9 +43,9 @@ function App() {
           key={item.question}
           item={item.question}
           correctAnswer={item.correct_answer}
-          incorrectAnswer={item.incorrect_answers}
+          incorrectAnswer={item.incorrect_answers.map(answer => answer)}
           // answers={randomlyInsertString(item.incorrect_answers, item.correct_answer)}
-          // answers={shuffleArray(item.incorrect_answers.concat(item.correct_answer))}
+          answers={shuffleArray(item.incorrect_answers.concat(item.correct_answer))}
           // handleChange={handleChange}
           getId={getIdClick}
         // styles={styles}
@@ -48,13 +57,13 @@ function App() {
 
   const getIdClick = (event) => {
     const id = event.currentTarget.dataset.id
-    // if (!buttonColor) {
-    //   event.target.style.backgroundColor = "#D6DBF5"
-    //   setButtonColor(true)
-    // } else {
-    //   event.target.style.backgroundColor = "white"
-    //   setButtonColor(false)
-    // }
+    if (!buttonColor) {
+      event.target.style.backgroundColor = "#D6DBF5"
+      setButtonColor(true)
+    } else {
+      event.target.style.backgroundColor = "white"
+      setButtonColor(false)
+    }
     if (id === "true" && score < 5) {
       setScore(prevScore => prevScore + 1)
     }
