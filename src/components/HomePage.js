@@ -1,6 +1,6 @@
 import React from "react"
 
-function HomePage(props) {
+const HomePage = (props) => {
     return (
         <div className="home-page">
             <h1 className="home-title">Quizzical</h1>

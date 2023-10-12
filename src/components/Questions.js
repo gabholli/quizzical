@@ -1,7 +1,6 @@
 import React from "react"
-import { useRef } from "react"
 
-function Questions(props) {
+const Questions = (props) => {
 
     return (
         <div className="questions">
