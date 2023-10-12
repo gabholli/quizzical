@@ -10,13 +10,23 @@ const App = () => {
 
   const [home, setHome] = useState(false)
   const [questions, setQuestions] = useState([])
-  const [completed, setCompleted] = useState(false)
   // const [buttonColor, setButtonColor] = useState(false)
   const [score, setScore] = useState(0)
 
   const handleEnterClick = () => {
     setHome(prevState => prevState = !prevState)
   }
+
+  // const randomlyInsertString = (targetArray, stringToInsert) => {
+  //   const randomIndex = Math.floor(Math.random() * (targetArray.length + 1))
+
+  //   const firstPart = targetArray.slice(0, randomIndex)
+  //   const secondPart = targetArray.slice(randomIndex)
+
+  //   const newArray = [...firstPart, stringToInsert, ...secondPart]
+
+  //   return newArray
+  // }
 
   useEffect(() => {
     fetch("https://opentdb.com/api.php?amount=5&type=multiple")
@@ -26,16 +36,6 @@ const App = () => {
         setQuestions(data.results)
       })
   }, [home])
-
-  // const shuffleArray = (array) => {
-  //   for (let i = array.length - 1; i > 0; i--) {
-  //     const j = Math.floor(Math.random() * (i + 1))
-  //     const temp = array[i]
-  //     array[i] = array[j]
-  //     array[j] = temp
-  //   }
-  //   return array
-  // }
 
   const generateQuestionData = () => {
     const questionData = questions.map(item => {
@@ -47,8 +47,8 @@ const App = () => {
             // item={item}
             key={item.question}
             item={decode(item.question)}
-            correctAnswer={item.correct_answer}
-            incorrectAnswer={item.incorrect_answers.map(answer => answer)}
+            correctAnswer={decode(item.correct_answer)}
+            incorrectAnswer={item.incorrect_answers.map(answer => decode(answer))}
             // answers={randomlyInsertString(item.incorrect_answers, item.correct_answer)}
             answers={decodedIncorrectAnswers.concat(decodedCorrectAnswer)}
             // handleChange={handleChange}
@@ -74,23 +74,13 @@ const App = () => {
       setScore(prevScore => prevScore + 1)
       // const answer = document.querySelector(`[data-id="true"]`)
       // answer.parentElement.style.backgroundColor = "red"
-      console.log(score)
     }
-
-    if (score === 5) {
-      setCompleted(true)
-    }
-
-    console.log(id)
   }
 
   const backToHome = () => {
     setHome(prevState => prevState = !prevState)
     setScore(0)
-    setCompleted(false)
   }
-
-  console.log(questions)
 
   return (
     <div className="app">
@@ -105,7 +95,7 @@ const App = () => {
       />}
       {home && <h1 className="quiz-heading">Quizzical</h1>}
       {home && generateQuestionData()}
-      {home && completed && <p>Your Score: {score}/5</p>}
+      {home && score === 5 && <p>Your Score: {score}/5</p>}
       {home && <button onClick={backToHome} className="back-home-button" >{score === 5 ? "New Game" : "Back To Home"}</button>}
     </div >
   );
