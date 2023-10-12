@@ -22,8 +22,9 @@ body {
   font-family: Karla, sans-serif;
 }
 
-.hidden {
-  background-color: "red";
+.disabled {
+  opacity: 0.2;
+  pointer-events: none;
 }
 
 .app {

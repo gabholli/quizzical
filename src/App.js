@@ -6,7 +6,7 @@ import Questions from "./components/Questions"
 import { decode } from "html-entities"
 
 
-function App() {
+const App = () => {
 
   const [home, setHome] = useState(false)
   const [questions, setQuestions] = useState([])
@@ -39,19 +39,23 @@ function App() {
 
   const generateQuestionData = () => {
     const questionData = questions.map(item => {
+      const decodedIncorrectAnswers = item.incorrect_answers.map(answer => decode(answer))
+      const decodedCorrectAnswer = decode(item.correct_answer)
       return (
-        <Questions
-          // item={item}
-          key={item.question}
-          item={decode(item.question)}
-          correctAnswer={decode(item.correct_answer)}
-          incorrectAnswer={item.incorrect_answers.map(answer => decode(answer))}
-          // answers={randomlyInsertString(item.incorrect_answers, item.correct_answer)}
-          answers={item.incorrect_answers.concat(item.correct_answer)}
-          // handleChange={handleChange}
-          getId={getIdClick}
-        // styles={styles}
-        />
+        <div>
+          <Questions
+            // item={item}
+            key={item.question}
+            item={decode(item.question)}
+            correctAnswer={item.correct_answer}
+            incorrectAnswer={item.incorrect_answers.map(answer => answer)}
+            // answers={randomlyInsertString(item.incorrect_answers, item.correct_answer)}
+            answers={decodedIncorrectAnswers.concat(decodedCorrectAnswer)}
+            // handleChange={handleChange}
+            getId={getIdClick}
+          // styles={styles}
+          />
+        </div>
       )
     })
     return questionData
@@ -68,6 +72,9 @@ function App() {
     // }
     if (id === "true" && score < 5) {
       setScore(prevScore => prevScore + 1)
+      // const answer = document.querySelector(`[data-id="true"]`)
+      // answer.parentElement.style.backgroundColor = "red"
+      console.log(score)
     }
 
     if (score === 5) {
@@ -98,10 +105,10 @@ function App() {
       />}
       {home && <h1 className="quiz-heading">Quizzical</h1>}
       {home && generateQuestionData()}
-      {home && completed && <p>Your Score: {score}</p>}
+      {home && completed && <p>Your Score: {score}/5</p>}
       {home && <button onClick={backToHome} className="back-home-button" >{score === 5 ? "New Game" : "Back To Home"}</button>}
     </div >
   );
 }
 
-export default App;
+export default App

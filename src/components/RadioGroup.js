@@ -1,22 +1,22 @@
 import React from "react"
 
-const RadioGroup = ({ name, options, value, onChange, id }) => {
+const RadioGroup = ({ name, options, selectedAnswer, onOptionChange }) => {
 
     const optionsMap = options?.map((option, index) => (
         <div>
-            <input
-                className="answer"
-                id={id}
-                type="radio"
-                name={name}
-                value={option}
-                checked={value === option}
-                onChange={onChange}
-            />
-            <label htmlFor={id}>{option}</label>
+            <label>
+                <input
+                    className="answer"
+                    type="radio"
+                    name={name}
+                    value={option}
+                    checked={selectedAnswer === option}
+                    onChange={() => onOptionChange(option)}
+                />
+                {option}
+            </label>
         </div >
     ))
-
     return (
         <div>
             {optionsMap}
