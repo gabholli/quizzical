@@ -4,29 +4,18 @@ import './App.css'
 import HomePage from "./components/HomePage"
 import Questions from "./components/Questions"
 import { decode } from "html-entities"
+import Confetti from "react-confetti"
 
 
 const App = () => {
 
   const [home, setHome] = useState(false)
   const [questions, setQuestions] = useState([])
-  // const [buttonColor, setButtonColor] = useState(false)
   const [score, setScore] = useState(0)
 
   const handleEnterClick = () => {
     setHome(prevState => prevState = !prevState)
   }
-
-  // const randomlyInsertString = (targetArray, stringToInsert) => {
-  //   const randomIndex = Math.floor(Math.random() * (targetArray.length + 1))
-
-  //   const firstPart = targetArray.slice(0, randomIndex)
-  //   const secondPart = targetArray.slice(randomIndex)
-
-  //   const newArray = [...firstPart, stringToInsert, ...secondPart]
-
-  //   return newArray
-  // }
 
   useEffect(() => {
     fetch("https://opentdb.com/api.php?amount=5&type=multiple")
@@ -41,6 +30,7 @@ const App = () => {
     const questionData = questions.map(item => {
       const decodedIncorrectAnswers = item.incorrect_answers.map(answer => decode(answer))
       const decodedCorrectAnswer = decode(item.correct_answer)
+      const shuffledAnswers = decodedIncorrectAnswers.concat(decodedCorrectAnswer).sort(() => Math.random() - 0.5)
       return (
         <div>
           <Questions
@@ -50,7 +40,8 @@ const App = () => {
             correctAnswer={decode(item.correct_answer)}
             incorrectAnswer={item.incorrect_answers.map(answer => decode(answer))}
             // answers={randomlyInsertString(item.incorrect_answers, item.correct_answer)}
-            answers={decodedIncorrectAnswers.concat(decodedCorrectAnswer)}
+            // answers={decodedIncorrectAnswers.concat(decodedCorrectAnswer)}
+            answers={shuffledAnswers}
             // handleChange={handleChange}
             getId={getIdClick}
           // styles={styles}
@@ -63,17 +54,12 @@ const App = () => {
 
   const getIdClick = (event) => {
     const id = event.currentTarget.dataset.id
-    // if (!buttonColor) {
-    //   event.target.style.backgroundColor = "#D6DBF5"
-    //   setButtonColor(true)
-    // } else {
-    //   event.target.style.backgroundColor = "white"
-    //   setButtonColor(false)
-    // }
+    // event.target.style.backgroundColor = "#D6DBF5"
+    // event.target.parentElement.style.pointerEvents = "none"
+    // event.target.parentElement.style.opacity = ".5"
+    event.target.parentElement.style.display = "none"
     if (id === "true" && score < 5) {
       setScore(prevScore => prevScore + 1)
-      // const answer = document.querySelector(`[data-id="true"]`)
-      // answer.parentElement.style.backgroundColor = "red"
     }
   }
 
@@ -95,8 +81,9 @@ const App = () => {
       />}
       {home && <h1 className="quiz-heading">Quizzical</h1>}
       {home && generateQuestionData()}
-      {home && score === 5 && <p>Your Score: {score}/5</p>}
+      {home && <p className="score-text">Your Score: {score}/5</p>}
       {home && <button onClick={backToHome} className="back-home-button" >{score === 5 ? "New Game" : "Back To Home"}</button>}
+      {score === 5 && <Confetti />}
     </div >
   );
 }
