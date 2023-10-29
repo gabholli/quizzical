@@ -64,7 +64,7 @@ const App = () => {
   }
 
   const backToHome = () => {
-    setHome(prevState => prevState = !prevState)
+    setHome(prevState => !prevState)
     setScore(0)
   }
 
