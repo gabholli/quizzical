@@ -125,6 +125,10 @@ body {
   cursor: pointer;
 }
 
+.answer:hover {
+  background-color: #D6DBF5;
+}
+
 /* button {
   border-radius: 7.942px;
   background: white;
