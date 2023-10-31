@@ -125,7 +125,8 @@ body {
   cursor: pointer;
 }
 
-.answer:hover {
+.answer:hover,
+.answer:focus {
   background-color: #D6DBF5;
 }
 
