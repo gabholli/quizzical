@@ -13,20 +13,40 @@ const App = () => {
   const [game, setGame] = useState(false)
   const [questions, setQuestions] = useState([])
   const [score, setScore] = useState(0)
+  // const [error, setError] = useState(null)
 
   const handleEnterClick = () => {
     setHome(prevState => prevState = !prevState)
     setGame(true)
   }
 
+  // useEffect(() => {
+  //   fetch("https://opentdb.com/api.php?amount=5&type=multiple")
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       console.log(data)
+  //       setQuestions(data.results)
+  //     })
+  // }, [game])
+
   useEffect(() => {
     fetch("https://opentdb.com/api.php?amount=5&type=multiple")
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw Error("Data not available")
+        }
+        return response.json()
+      })
       .then(data => {
-        console.log(data)
         setQuestions(data.results)
       })
+      .catch(error => {
+        console.log("Fetch error: ", error)
+        // setError(error)
+      })
+
   }, [game])
+
 
   const generateQuestionData = () => {
     const questionData = questions?.map(item => {
@@ -69,7 +89,17 @@ const App = () => {
     setHome(prevState => !prevState)
     setGame(false)
     setScore(0)
+    window.location.reload(true)
   }
+
+  // if (error) {
+  //   return (
+  //     <div className="error-container">
+  //       <h1>There was an error loading the questions</h1>
+  //       <button onClick={backToHome}>Go to home</button>
+  //     </div>
+  //   )
+  // }
 
   return (
     <div className="app">
@@ -84,6 +114,7 @@ const App = () => {
       />}
       {game && <h1 className="quiz-heading">Quizzical</h1>}
       {game && generateQuestionData()}
+      {/* {error && <h1>There was an error loading the questions</h1>} */}
       {game && <p className="score-text">Your Score: {score}/5</p>}
       {game && <button onClick={backToHome} className="back-home-button" >{score === 5 ? "New Game" : "Back To Home"}</button>}
       {score === 5 && <Confetti />}
