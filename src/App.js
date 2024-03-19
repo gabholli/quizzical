@@ -89,7 +89,7 @@ const App = () => {
     setHome(prevState => !prevState)
     setGame(false)
     setScore(0)
-    window.location.reload(true)
+    // window.location.reload(true)
   }
 
   // if (error) {
