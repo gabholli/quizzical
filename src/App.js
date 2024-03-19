@@ -26,7 +26,7 @@ const App = () => {
         console.log(data)
         setQuestions(data.results)
       })
-  }, [])
+  }, [game])
 
   const generateQuestionData = () => {
     const questionData = questions?.map(item => {
