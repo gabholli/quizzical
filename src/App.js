@@ -10,11 +10,13 @@ import Confetti from "react-confetti"
 const App = () => {
 
   const [home, setHome] = useState(false)
+  const [game, setGame] = useState(false)
   const [questions, setQuestions] = useState([])
   const [score, setScore] = useState(0)
 
   const handleEnterClick = () => {
     setHome(prevState => prevState = !prevState)
+    setGame(true)
   }
 
   useEffect(() => {
@@ -24,10 +26,10 @@ const App = () => {
         console.log(data)
         setQuestions(data.results)
       })
-  }, [home])
+  }, [])
 
   const generateQuestionData = () => {
-    const questionData = questions.map(item => {
+    const questionData = questions?.map(item => {
       const decodedIncorrectAnswers = item.incorrect_answers.map(answer => decode(answer))
       const decodedCorrectAnswer = decode(item.correct_answer)
       const shuffledAnswers = decodedIncorrectAnswers.concat(decodedCorrectAnswer).sort(() => Math.random() - 0.5)
@@ -65,6 +67,7 @@ const App = () => {
 
   const backToHome = () => {
     setHome(prevState => !prevState)
+    setGame(false)
     setScore(0)
   }
 
@@ -79,10 +82,10 @@ const App = () => {
       {!home && <HomePage
         handleClick={handleEnterClick}
       />}
-      {home && <h1 className="quiz-heading">Quizzical</h1>}
-      {home && generateQuestionData()}
-      {home && <p className="score-text">Your Score: {score}/5</p>}
-      {home && <button onClick={backToHome} className="back-home-button" >{score === 5 ? "New Game" : "Back To Home"}</button>}
+      {game && <h1 className="quiz-heading">Quizzical</h1>}
+      {game && generateQuestionData()}
+      {game && <p className="score-text">Your Score: {score}/5</p>}
+      {game && <button onClick={backToHome} className="back-home-button" >{score === 5 ? "New Game" : "Back To Home"}</button>}
       {score === 5 && <Confetti />}
     </div >
   );
