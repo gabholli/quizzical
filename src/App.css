@@ -204,14 +204,14 @@ input[type="radio"]:checked+label {
   cursor: pointer;
 }
 
-.error-container {
+/* .error-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
   height: 100svh;
-}
+} */
 
 @media (min-width: 768px) {
   .questions {
