@@ -30,7 +30,7 @@ const App = () => {
   // }, [game])
 
   useEffect(() => {
-    fetch("https://opentdb.com/api.php?amount=5&type=multiple")
+    fetch("https://opentdb.com/api.php?amount=5&difficulty=easy&type=multiple")
       .then(response => {
         if (!response.ok) {
           throw Error("Data not available")
