@@ -22,43 +22,6 @@ const App = () => {
     setGame(true)
   }
 
-  // useEffect(() => {
-  //   fetch("https://opentdb.com/api.php?amount=5&type=multiple")
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       console.log(data)
-  //       setQuestions(data.results)
-  //     })
-  // }, [game])
-
-  // useEffect(() => {
-  //   if (score === 5) {
-  //     setShowConfetti(true);
-  //     const timer = setTimeout(() => {
-  //       setShowConfetti(false);  // Automatically turn off confetti after 5000 ms (5 seconds)
-  //     }, 10000);
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, [score]);
-
-
-  // useEffect(() => {
-  //   fetch("https://opentdb.com/api.php?amount=5&difficulty=easy&type=multiple")
-  //     .then(response => {
-  //       if (!response.ok) {
-  //         throw Error("Data not available")
-  //       }
-  //       return response.json()
-  //     })
-  //     .then(data => {
-  //       setQuestions(data.results)
-  //     })
-  //     .catch(error => {
-  //       console.log("Fetch error: ", error)
-  //       // setError(error)
-  //     })
-
-  // }, [game])
 
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -76,16 +39,21 @@ const App = () => {
       }
       const data = await response.json();
       const processedQuestions = data.results.map((item) => {
-        const decodedIncorrectAnswers = item.incorrect_answers.map(answer => decode(answer));
-        const decodedCorrectAnswer = decode(item.correct_answer);
-        const answers = [...decodedIncorrectAnswers, decodedCorrectAnswer];
+        const decodedIncorrectAnswers = item.incorrect_answers.map(answer => decode(answer))
+        const decodedCorrectAnswer = decode(item.correct_answer)
+        const answers = [...decodedIncorrectAnswers, decodedCorrectAnswer]
         return {
           ...item,
           answers: shuffleArray(answers), // Shuffle once and store
           questionId: decode(item.question),
-        };
+        }
+      })
+      setQuestions(processedQuestions)
+      const initialAnswers = {};
+      processedQuestions.forEach(question => {
+        initialAnswers[question.questionId] = null; // Or any other default value
       });
-      setQuestions(processedQuestions);
+      setSelectedAnswer(initialAnswers);
     }
     if (game) {
       fetchQuestions().catch(console.error);
@@ -93,20 +61,13 @@ const App = () => {
   }, [game])
 
   const getIdClick = useCallback((event, question) => {
-    const selectedValue = event.target.value
-    const isCorrect = event.target.dataset.id === 'true'
-    console.log(isCorrect)
-    // Update the selected answer state
-    setSelectedAnswer(prev => ({
-      ...prev,
+    const selectedValue = event.target.value;
+    // Just store the user's selected answer
+    setSelectedAnswer(prevSelectedAnswers => ({
+      ...prevSelectedAnswers,
       [question]: selectedValue
     }));
-
-    // Update score if necessary
-    if (isCorrect && !selectedAnswer[question]) { // Only update score if not already answered
-      setScore(prevScore => prevScore + 1)
-    }
-  }, [selectedAnswer])
+  }, [setSelectedAnswer]);  // Ensure setSelectedAnswer is included in the dependency array
 
   const questionComponents = questions.map(item => (
     <Questions
@@ -122,25 +83,37 @@ const App = () => {
 
   const handleSubmitAnswers = () => {
     const totalQuestions = questions.length;
-    const answeredQuestions = Object.keys(selectedAnswer).length;
+    const answeredQuestions = Object.keys(selectedAnswer).filter(key => selectedAnswer[key] !== null).length;
     const isAllAnswered = totalQuestions === answeredQuestions;
 
     // Optionally alert the user to answer all questions first
     if (!isAllAnswered) {
-      alert("Please answer all questions before submitting.")
-      return
+      alert("Please answer all questions before submitting.");
+      return;
     }
 
-    // Check if the score is 5, assuming that `setScore` correctly updates the score
-    if (score === 5) {
-      setShowConfetti(true)
-      setTimeout(() => {
-        setShowConfetti(false)
-      }, 10000)
+    // Calculate the score based on correct answers
+    const newScore = questions.reduce((acc, question) => {
+      const userAnswer = selectedAnswer[question.questionId]
+      const correctAnswer = decode(question.correct_answer)
+      if (userAnswer === correctAnswer) {
+        return acc + 1;
+      }
+      return acc;
+    }, 0);
+
+    setScore(newScore); // Set the new score
+
+    // Display results or confetti if the score is perfect
+    if (newScore === questions.length) {
+      setShowConfetti(true);
+      setTimeout(() => setShowConfetti(false), 10000);
     } else {
-      alert("Try again! Your score: " + score);
+      alert("Your score: " + newScore);
     }
   }
+
+  console.log(score)
 
 
   const backToHome = () => {
@@ -149,15 +122,6 @@ const App = () => {
     setScore(0)
     // window.location.reload(true)
   }
-
-  // if (error) {
-  //   return (
-  //     <div className="error-container">
-  //       <h1>There was an error loading the questions</h1>
-  //       <button onClick={backToHome}>Go to home</button>
-  //     </div>
-  //   )
-  // }
 
   return (
     <div className="app">
@@ -173,13 +137,13 @@ const App = () => {
       {game && <h1 className="quiz-heading">Quizzical</h1>}
       {game && questionComponents}
       {/* {error && <h1>There was an error loading the questions</h1>} */}
-      {game && <p className="score-text">Your Score: {score}/5</p>}
-      {game && <button onClick={backToHome} className="back-home-button" >{score === 5 ? "New Game" : "Back To Home"}</button>}
       {game && (
         <button onClick={handleSubmitAnswers} className="submit-answers-button">
           Submit Answers
         </button>
       )}
+      {game && <button onClick={backToHome} className="back-home-button" >{score === 5 ? "New Game" : "Back To Home"}</button>}
+
 
       {showConfetti && <Confetti width={window.innerWidth} height={window.innerHeight} />}
     </div >
