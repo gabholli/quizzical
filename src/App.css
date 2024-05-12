@@ -111,7 +111,7 @@ body {
   grid-area: question;
   color: #293264;
   font-family: Karla;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
@@ -157,7 +157,7 @@ label {
   padding: 0.25em 1em;
   border-radius: 8px;
   border: 0.8px solid #4D5B9E;
-  font-size: 0.625rem;
+  font-size: .9rem;
 }
 
 input[type="radio"]:checked+label {
@@ -166,7 +166,7 @@ input[type="radio"]:checked+label {
   color: #293264;
   text-align: center;
   font-family: Inter;
-  font-size: 0.625rem;
+  font-size: .9rem;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
@@ -195,22 +195,21 @@ input[type="radio"]:checked+label {
   justify-content: center;
   color: #F5F7FB;
   font-family: Inter;
-  font-size: 0.625rem;
+  font-size: 0.9rem;
   font-style: normal;
   font-weight: 600;
-  line-height: normal;
-  padding: 0.625em 1.25em;
+  line-height: nrmal;
+  padding: 2em 4em;
   background-color: #4D5B9E;
   width: 120px;
   height: 35px;
   flex-shrink: 0;
   margin: 1.875em 0 1.875em;
   cursor: pointer;
+  border-radius: 7.9px;
 }
 
-.submit-answers-button {
-  margin-top: 4em;
-}
+
 
 /* .error-container {
   display: flex;
@@ -232,6 +231,14 @@ input[type="radio"]:checked+label {
       "question question question question"
       "one two three four";
     gap: 20px;
+  }
+
+  .button-container {
+    margin-top: 4em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 1.5em;
   }
 
 }

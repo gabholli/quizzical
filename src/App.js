@@ -137,14 +137,15 @@ const App = () => {
       {game && <h1 className="quiz-heading">Quizzical</h1>}
       {game && questionComponents}
       {/* {error && <h1>There was an error loading the questions</h1>} */}
-      {game && (
-        <button onClick={handleSubmitAnswers} className="submit-answers-button">
-          Submit Answers
-        </button>
-      )}
-      {game && <button onClick={backToHome} className="back-home-button" >{score === 5 ? "New Game" : "Back To Home"}</button>}
+      <div className="button-container">
+        {game && (
+          <button onClick={handleSubmitAnswers} className="submit-answers-button">
+            Submit Answers
+          </button>
+        )}
+        {game && <button onClick={backToHome} className="back-home-button" >{score === 5 ? "New Game" : "Back To Home"}</button>}
 
-
+      </div>
       {showConfetti && <Confetti width={window.innerWidth} height={window.innerHeight} />}
     </div >
   );
