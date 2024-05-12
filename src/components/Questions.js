@@ -32,3 +32,5 @@ const Questions = ({ item, answers, correctAnswer, getId, questionId, selectedAn
         </div>
     );
 };
+
+export default Questions
