@@ -24,4 +24,4 @@ const Questions = ({ item, answers, correctAnswer, getId, questionId }) => {
     )
 }
 
-export default Questions;
+export default Questions
