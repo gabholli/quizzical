@@ -103,8 +103,6 @@ body {
     "three"
     "four";
   gap: 10px;
-  justify-items: center;
-  align-items: center;
 }
 
 .prompt {
@@ -115,7 +113,6 @@ body {
   font-style: normal;
   font-weight: 700;
   line-height: normal;
-  text-align: center;
 }
 
 .answer {
@@ -188,8 +185,7 @@ input[type="radio"]:checked+label {
   grid-area: four;
 }
 
-.back-home-button,
-.submit-answers-button {
+.back-home-button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -206,10 +202,6 @@ input[type="radio"]:checked+label {
   flex-shrink: 0;
   margin: 1.875em 0 1.875em;
   cursor: pointer;
-}
-
-.submit-answers-button {
-  margin-top: 4em;
 }
 
 /* .error-container {
@@ -265,8 +257,7 @@ input[type="radio"]:checked+label {
     font-size: .8rem;
   }
 
-  .back-home-button,
-  .submit-answers-button {
+  .back-home-button {
     font-size: 1rem;
     padding: 1.5em;
     width: 300px;
