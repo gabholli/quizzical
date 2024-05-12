@@ -14,7 +14,7 @@ const App = () => {
   const [questions, setQuestions] = useState([])
   const [score, setScore] = useState(0)
   // const [error, setError] = useState(null)
-  const [selectedAnswer, setSelectedAnswer] = useState([])
+  const [selectedAnswer, setSelectedAnswer] = useState({})
 
   const handleEnterClick = () => {
     setHome(prevState => prevState = !prevState)
@@ -54,6 +54,7 @@ const App = () => {
       const decodedIncorrectAnswers = item.incorrect_answers.map(answer => decode(answer))
       const decodedCorrectAnswer = decode(item.correct_answer)
       const shuffledAnswers = decodedIncorrectAnswers.concat(decodedCorrectAnswer).sort(() => Math.random() - 0.5)
+      const questionId = decode(item.question)
       return (
         <div>
           <Questions
@@ -67,6 +68,8 @@ const App = () => {
             answers={shuffledAnswers}
             // handleChange={handleChange}
             getId={event => getIdClick(event, decode(item.question))}
+            questionId={questionId}
+            selectedAnswer={selectedAnswer[questionId]}
           // styles={styles}
           />
         </div>
@@ -76,16 +79,21 @@ const App = () => {
   }
 
   const getIdClick = (event, question) => {
-    const answerId = event.currentTarget.dataset.id
-    // event.target.style.backgroundColor = "#D6DBF5"
-    // event.target.parentElement.style.pointerEvents = "none"
-    // event.target.parentElement.style.opacity = ".5"
-    // event.target.parentElement.style.display = "none"
-    setSelectedAnswer(prev => ({ ...prev, [question]: answerId }))
-    if (answerId === "true" && score < 5) {
+    const selectedValue = event.target.value;
+    const isCorrect = event.target.dataset.id === 'true';
+
+    // Update the selected answer state
+    setSelectedAnswer(prev => ({
+      ...prev,
+      [question]: selectedValue
+    }))
+
+    // Update score if necessary
+    if (isCorrect && !selectedAnswer[question]) { // Only update score if not already answered
       setScore(prevScore => prevScore + 1)
     }
   }
+
 
   const backToHome = () => {
     setHome(prevState => !prevState)
