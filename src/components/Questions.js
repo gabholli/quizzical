@@ -3,15 +3,12 @@ import React from "react"
 const Questions = (props) => {
 
     return (
-        <div className="question">
-
-        </div>
-        // <div className="questions">
-        //     <div className="question">
-        //         <h1 className="prompt">
-        //             {props.item}
-        //         </h1>
-                {/* <p
+        <div className="questions">
+            <div className="question">
+                <h1 className="prompt">
+                    {props.item}
+                </h1>
+                <p
                     onClick={props.getId}
                     className="answer"
                     data-id={props.answers[0] === props.correctAnswer}>
@@ -30,8 +27,8 @@ const Questions = (props) => {
                     onClick={props.getId}
                     className="answer"
                     data-id={props.answers[3] === props.correctAnswer}>
-                    {props.answers[3]}</p> */}
-    {/* <input type="radio"
+                    {props.answers[3]}</p>
+                {/* <input type="radio"
                     name="questionOne"
                     id="question-one-one"
                     value="question-one-one"
@@ -55,8 +52,8 @@ const Questions = (props) => {
                     value="question-one-four"
                     onChange={props.handleChange} />
                 <label htmlFor="question-one-four">{props.answers[3]}</label> */}
-        //     </div>
-        // </div >
+            </div>
+        </div >
     )
 
 }
