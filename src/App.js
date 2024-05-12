@@ -15,6 +15,9 @@ const App = () => {
   const [score, setScore] = useState(0)
   // const [error, setError] = useState(null)
   const [selectedAnswer, setSelectedAnswer] = useState({})
+  const [showConfetti, setShowConfetti] = useState(false)
+
+
 
   const handleEnterClick = () => {
     setHome(prevState => prevState = !prevState)
@@ -29,6 +32,17 @@ const App = () => {
   //       setQuestions(data.results)
   //     })
   // }, [game])
+
+  useEffect(() => {
+    if (score === 5) {
+      setShowConfetti(true);
+      const timer = setTimeout(() => {
+        setShowConfetti(false);  // Automatically turn off confetti after 5000 ms (5 seconds)
+      }, 10000);
+      return () => clearTimeout(timer);
+    }
+  }, [score]);
+
 
   useEffect(() => {
     fetch("https://opentdb.com/api.php?amount=5&difficulty=easy&type=multiple")
@@ -132,7 +146,7 @@ const App = () => {
       {/* {error && <h1>There was an error loading the questions</h1>} */}
       {game && <p className="score-text">Your Score: {score}/5</p>}
       {game && <button onClick={backToHome} className="back-home-button" >{score === 5 ? "New Game" : "Back To Home"}</button>}
-      {score === 5 && <Confetti />}
+      {showConfetti && <Confetti width={window.innerWidth} height={window.innerHeight} />}
     </div >
   );
 }
