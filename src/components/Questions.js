@@ -1,11 +1,24 @@
 import React from "react"
 
-const Questions = (props) => {
-
+const Questions = ({ item, answers, correctAnswer, getId, questionId }) => {
     return (
-        <div>Test</div>
-    )
+        <div className="question">
+            <h1 className="prompt">{item}</h1>
+            {answers.map((answer, index) => (
+                <div key={index}>
+                    <input
+                        type="radio"
+                        id={`${questionId}-answer-${index}`}
+                        name={questionId}
+                        value={answer}
+                        onChange={() => getId(answer === correctAnswer)}
+                        className="answer-radio"
+                    />
+                    <label htmlFor={`${questionId}-answer-${index}`}>{answer}</label>
+                </div>
+            ))}
+        </div>
+    );
+};
 
-}
-
-export default Questions
+export default Questions;
