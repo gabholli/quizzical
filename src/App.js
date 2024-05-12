@@ -40,6 +40,7 @@ const App = () => {
       })
       .then(data => {
         setQuestions(data.results)
+        console.log(questions)
       })
       .catch(error => {
         console.log("Fetch error: ", error)
@@ -48,12 +49,14 @@ const App = () => {
 
   }, [game])
 
+  console.log("test")
 
   const generateQuestionData = () => {
     const questionData = questions?.map(item => {
       const decodedIncorrectAnswers = item.incorrect_answers.map(answer => decode(answer))
       const decodedCorrectAnswer = decode(item.correct_answer)
-      const shuffledAnswers = decodedIncorrectAnswers.concat(decodedCorrectAnswer).sort(() => Math.random() - 0.5)
+      // const shuffledAnswers = decodedIncorrectAnswers.concat(decodedCorrectAnswer).sort(() => Math.random() - 0.5)
+      const answers = decodedIncorrectAnswers.concat(decodedCorrectAnswer)
       const questionId = decode(item.question)
       return (
         <div>
@@ -65,7 +68,7 @@ const App = () => {
             incorrectAnswer={item.incorrect_answers.map(answer => decode(answer))}
             // answers={randomlyInsertString(item.incorrect_answers, item.correct_answer)}
             // answers={decodedIncorrectAnswers.concat(decodedCorrectAnswer)}
-            answers={shuffledAnswers}
+            answers={answers}
             // handleChange={handleChange}
             getId={event => getIdClick(event, decode(item.question))}
             questionId={questionId}
@@ -83,10 +86,12 @@ const App = () => {
     const isCorrect = event.target.dataset.id === 'true';
 
     // Update the selected answer state
-    setSelectedAnswer(prev => ({
-      ...prev,
-      [question]: selectedValue
-    }))
+    if (selectedAnswer[question] !== selectedValue) {
+      setSelectedAnswer(prev => ({
+        ...prev,
+        [question]: selectedValue
+      }))
+    }
 
     // Update score if necessary
     if (isCorrect && !selectedAnswer[question]) { // Only update score if not already answered
