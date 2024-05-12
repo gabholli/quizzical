@@ -10,7 +10,7 @@ import { toast } from 'react-hot-toast'
 
 const App = () => {
 
-  const [home, setHome] = useState(false)
+  const [home, setHome] = useState(true)
   const [game, setGame] = useState(false)
   const [questions, setQuestions] = useState([])
   const [score, setScore] = useState(0)
@@ -20,7 +20,7 @@ const App = () => {
   const [answersSubmitted, setAnswersSubmitted] = useState(false);
 
   const handleEnterClick = () => {
-    setHome(prevState => prevState = !prevState)
+    setHome(false)
     setGame(true)
   }
 
@@ -123,15 +123,17 @@ const App = () => {
   }
 
   const backToHome = () => {
-    setHome(prevState => !prevState)
+    setHome(true)
     setGame(false)
     setScore(0)
     setAnswersSubmitted(false)
+    setQuestions([])
+    setSelectedAnswer({})
   }
 
   return (
     <div className="app">
-      {!home && <HomePage
+      {home && <HomePage
         handleClick={handleEnterClick}
       />}
       {game && <h1 className="quiz-heading">Quizzical</h1>}
