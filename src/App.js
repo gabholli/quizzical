@@ -5,6 +5,7 @@ import HomePage from "./components/HomePage"
 import Questions from "./components/Questions"
 import { decode } from "html-entities"
 import Confetti from "react-confetti"
+import { toast } from 'react-hot-toast'
 
 
 const App = () => {
@@ -90,8 +91,10 @@ const App = () => {
 
     // Optionally alert the user to answer all questions first
     if (!isAllAnswered) {
-      alert("Please answer all questions before submitting.");
-      return;
+      toast.error("Please answer all questions before submitting", {
+        duration: 6000
+      })
+      return
     }
 
     setAnswersSubmitted(true)
@@ -101,10 +104,10 @@ const App = () => {
       const userAnswer = selectedAnswer[question.questionId]
       const correctAnswer = decode(question.correct_answer)
       if (userAnswer === correctAnswer) {
-        return acc + 1;
+        return acc + 1
       }
-      return acc;
-    }, 0);
+      return acc
+    }, 0)
 
     setScore(newScore); // Set the new score
 
@@ -113,7 +116,9 @@ const App = () => {
       setShowConfetti(true);
       setTimeout(() => setShowConfetti(false), 10000);
     } else {
-      alert("Your score: " + newScore);
+      toast.success("Your score: " + newScore, {
+        duration: 6000
+      })
     }
   }
 
