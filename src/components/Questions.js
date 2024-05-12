@@ -1,64 +1,36 @@
-import React from "react"
+import React from "react";
 
-const Questions = (props) => {
-
+const Questions = ({ item, answers, correctAnswer, getId, questionId, selectedAnswer, gameOver }) => {
     return (
-        <div className="question">
+        <div className="questions">
+            <div className="question">
+                <h1 className="prompt">{item}</h1>
+                {answers.map((answer, index) => {
+                    const isCorrect = answer === correctAnswer;
+                    const isSelected = answer === selectedAnswer;
+                    // Apply green background if gameOver, the answer is correct, and it was selected
+                    const answerStyle = gameOver && !isSelected && isCorrect ? { backgroundColor: 'lightgreen' } : {};
 
+                    return (
+                        <div key={index}>
+                            <input
+                                type="radio"
+                                id={`${questionId}-answer-${index}`}
+                                name={questionId}
+                                value={answer}
+                                onChange={(e) => getId(e, questionId)}
+                                disabled={gameOver}  // Disable after submit
+                                className="answer-radio"
+                            />
+                            <label htmlFor={`${questionId}-answer-${index}`} style={answerStyle}>
+                                {answer}
+                            </label>
+                        </div>
+                    );
+                })}
+            </div>
         </div>
-        // <div className="questions">
-        //     <div className="question">
-        //         <h1 className="prompt">
-        //             {props.item}
-        //         </h1>
-                {/* <p
-                    onClick={props.getId}
-                    className="answer"
-                    data-id={props.answers[0] === props.correctAnswer}>
-                    {props.answers[0]}</p>
-                <p
-                    onClick={props.getId}
-                    className="answer"
-                    data-id={props.answers[1] === props.correctAnswer}>
-                    {props.answers[1]}</p>
-                <p
-                    onClick={props.getId}
-                    className="answer"
-                    data-id={props.answers[2] === props.correctAnswer}>
-                    {props.answers[2]}</p>
-                <p
-                    onClick={props.getId}
-                    className="answer"
-                    data-id={props.answers[3] === props.correctAnswer}>
-                    {props.answers[3]}</p> */}
-    {/* <input type="radio"
-                    name="questionOne"
-                    id="question-one-one"
-                    value="question-one-one"
-                    onChange={props.handleChange} />
-                <label htmlFor="question-one-one">{props.answers[0]}</label>
-                <input type="radio"
-                    name="questionOne"
-                    id="question-one-two"
-                    value="question-one-two"
-                    onChange={props.handleChange} />
-                <label htmlFor="question-one-two">{props.answers[1]}</label>
-                <input type="radio"
-                    name="questionOne"
-                    id="question-one-three"
-                    value="question-one-three"
-                    onChange={props.handleChange} />
-                <label htmlFor="question-one-three">{props.answers[2]}</label>
-                <input type="radio"
-                    name="questionOne"
-                    id="question-one-four"
-                    value="question-one-four"
-                    onChange={props.handleChange} />
-                <label htmlFor="question-one-four">{props.answers[3]}</label> */}
-        //     </div>
-        // </div >
-    )
-
-}
+    );
+};
 
 export default Questions
