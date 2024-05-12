@@ -14,6 +14,7 @@ const App = () => {
   const [questions, setQuestions] = useState([])
   const [score, setScore] = useState(0)
   // const [error, setError] = useState(null)
+  const [selectedAnswer, setSelectedAnswer] = useState([])
 
   const handleEnterClick = () => {
     setHome(prevState => prevState = !prevState)
@@ -65,7 +66,7 @@ const App = () => {
             // answers={decodedIncorrectAnswers.concat(decodedCorrectAnswer)}
             answers={shuffledAnswers}
             // handleChange={handleChange}
-            getId={getIdClick}
+            getId={event => getIdClick(event, decode(item.question))}
           // styles={styles}
           />
         </div>
@@ -74,13 +75,14 @@ const App = () => {
     return questionData
   }
 
-  const getIdClick = (event) => {
-    const id = event.currentTarget.dataset.id
+  const getIdClick = (event, question) => {
+    const answerId = event.currentTarget.dataset.id
     // event.target.style.backgroundColor = "#D6DBF5"
     // event.target.parentElement.style.pointerEvents = "none"
     // event.target.parentElement.style.opacity = ".5"
-    event.target.parentElement.style.display = "none"
-    if (id === "true" && score < 5) {
+    // event.target.parentElement.style.display = "none"
+    setSelectedAnswer(prev => ({ ...prev, [question]: answerId }))
+    if (answerId === "true" && score < 5) {
       setScore(prevScore => prevScore + 1)
     }
   }
