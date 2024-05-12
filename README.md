@@ -17,4 +17,4 @@ It was created using React.js, showing five questions at a time, requiring in-de
 Gabe Hollifield
 
 ## License
-This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
+This project is licensed under the MIT License - see the LICENSE.md file for details
