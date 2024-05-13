@@ -17,7 +17,7 @@ const App = () => {
   // const [error, setError] = useState(null)
   const [selectedAnswer, setSelectedAnswer] = useState({})
   const [showConfetti, setShowConfetti] = useState(false)
-  const [answersSubmitted, setAnswersSubmitted] = useState(false);
+  const [answersSubmitted, setAnswersSubmitted] = useState(false)
 
   const handleEnterClick = () => {
     setHome(false)
@@ -28,16 +28,16 @@ const App = () => {
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+      [array[i], array[j]] = [array[j], array[i]] // Swap elements
     }
     return array;
   }
 
   useEffect(() => {
     const fetchQuestions = async () => {
-      const response = await fetch("https://opentdb.com/api.php?amount=5&difficulty=easy&type=multiple");
+      const response = await fetch("https://opentdb.com/api.php?amount=5&difficulty=easy&type=multiple")
       if (!response.ok) {
-        throw new Error("Data not available");
+        throw new Error("Data not available")
       }
       const data = await response.json();
       const processedQuestions = data.results.map((item) => {
@@ -53,17 +53,17 @@ const App = () => {
       setQuestions(processedQuestions)
       const initialAnswers = {};
       processedQuestions.forEach(question => {
-        initialAnswers[question.questionId] = null; // Or any other default value
+        initialAnswers[question.questionId] = null // Or any other default value
       });
       setSelectedAnswer(initialAnswers);
     }
     if (game) {
-      fetchQuestions().catch(console.error);
+      fetchQuestions().catch(console.error)
     }
   }, [game])
 
   const getIdClick = useCallback((event, question) => {
-    const selectedValue = event.target.value;
+    const selectedValue = event.target.value
     // Just store the user's selected answer
     setSelectedAnswer(prevSelectedAnswers => ({
       ...prevSelectedAnswers,
