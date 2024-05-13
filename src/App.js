@@ -55,7 +55,7 @@ const App = () => {
       processedQuestions.forEach(question => {
         initialAnswers[question.questionId] = null // Or any other default value
       });
-      setSelectedAnswer(initialAnswers);
+      setSelectedAnswer(initialAnswers)
     }
     if (game) {
       fetchQuestions().catch(console.error)
@@ -68,8 +68,8 @@ const App = () => {
     setSelectedAnswer(prevSelectedAnswers => ({
       ...prevSelectedAnswers,
       [question]: selectedValue
-    }));
-  }, [setSelectedAnswer]);  // Ensure setSelectedAnswer is included in the dependency array
+    }))
+  }, [setSelectedAnswer])  // Ensure setSelectedAnswer is included in the dependency array
 
   const questionComponents = questions.map(item => (
     <Questions
