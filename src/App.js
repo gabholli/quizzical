@@ -148,7 +148,11 @@ const App = () => {
         {game && <button onClick={backToHome} className="back-home-button" >{score === 5 ? "New Game" : "Back To Home"}</button>}
 
       </div>
-      {showConfetti && <Confetti width={window.innerWidth} height={window.innerHeight} />}
+      {showConfetti && <Confetti
+        width={window.innerWidth}
+        height={window.innerHeight}
+        style={{ position: 'fixed' }}
+      />}
     </div >
   );
 }
