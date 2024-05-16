@@ -68,11 +68,14 @@ body {
 }
 
 .home-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: #F5F7FB;
   font-weight: 500;
   border-radius: 15px;
   background: #4D5B9E;
-  padding: 0.9375em, 1.875em;
+  padding: 0.9375em 1.875em;
   width: 193px;
   height: 52px;
   flex-shrink: 0;
