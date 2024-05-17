@@ -2,8 +2,8 @@
 Quizzical
 
 ## Description
-This repository contains files for a trivia quiz webpage made with React, drawing from a trivia API.
-It was created using React.js, showing five questions at a time, requiring in-depth start manangement.
+This repository contains files for a trivia quiz webpage drawing from a trivia API.
+It was created using React.js, showing five questions at a time, requiring in-depth state manangement.
 
 ## Getting Started
 ### Dependencies
