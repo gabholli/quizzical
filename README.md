@@ -11,7 +11,7 @@ It was created using React.js, showing five questions at a time, requiring in-de
 ### Installing
 - No installation needed
 ### Executing program
-- To access, go to https://gabholli-quizzical.netlify.appprogram
+- To access, go to https://gabholli-quizzical.netlify.app
 
 ## Authors
 Gabe Hollifield
