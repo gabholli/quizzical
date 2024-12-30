@@ -218,7 +218,23 @@ input[type="radio"]:checked+label {
   border-radius: 7.9px;
 }
 
+/* Spinner and error message code */
 
+.error-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100svh;
+}
+
+.spinner-wrapper,
+.error-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100svh;
+}
 
 /* .error-container {
   display: flex;

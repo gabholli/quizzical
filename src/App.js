@@ -6,22 +6,26 @@ import Questions from "./components/Questions"
 import { decode } from "html-entities"
 import Confetti from "react-confetti"
 import { toast } from 'react-hot-toast'
-
+import LoadingSpinner from "./components/LoadingSpinner"
 
 const App = () => {
 
   const [home, setHome] = useState(true)
   const [game, setGame] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [questions, setQuestions] = useState([])
   const [score, setScore] = useState(0)
-  // const [error, setError] = useState(null)
+  const [error, setError] = useState(null)
   const [selectedAnswer, setSelectedAnswer] = useState({})
   const [showConfetti, setShowConfetti] = useState(false)
   const [answersSubmitted, setAnswersSubmitted] = useState(false)
 
   const handleEnterClick = () => {
     setHome(false)
-    setGame(true)
+    setTimeout(() => {
+      setGame(true)
+      setLoading(false)
+    }, 1000)
   }
 
 
@@ -35,32 +39,42 @@ const App = () => {
 
   useEffect(() => {
     const fetchQuestions = async () => {
-      const response = await fetch("https://opentdb.com/api.php?amount=5&difficulty=easy&type=multiple")
-      if (!response.ok) {
-        throw new Error("Data not available")
-      }
-      const data = await response.json();
-      const processedQuestions = data.results.map((item) => {
-        const decodedIncorrectAnswers = item.incorrect_answers.map(answer => decode(answer))
-        const decodedCorrectAnswer = decode(item.correct_answer)
-        const answers = [...decodedIncorrectAnswers, decodedCorrectAnswer]
-        return {
-          ...item,
-          answers: shuffleArray(answers), // Shuffle once and store
-          questionId: decode(item.question),
+      setLoading(true)
+      try {
+        const response = await fetch("https://opentdb.com/api.php?amount=5&difficulty=easy&type=multiple")
+        if (!response.ok) {
+          throw new Error("Data not available")
         }
-      })
-      setQuestions(processedQuestions)
-      const initialAnswers = {};
-      processedQuestions.forEach(question => {
-        initialAnswers[question.questionId] = null // Or any other default value
-      });
-      setSelectedAnswer(initialAnswers)
+        const data = await response.json();
+        const processedQuestions = data.results.map((item) => {
+          const decodedIncorrectAnswers = item.incorrect_answers.map(answer => decode(answer))
+          const decodedCorrectAnswer = decode(item.correct_answer)
+          const answers = [...decodedIncorrectAnswers, decodedCorrectAnswer]
+          return {
+            ...item,
+            answers: shuffleArray(answers), // Shuffle once and store
+            questionId: decode(item.question),
+          }
+        })
+        setQuestions(processedQuestions)
+        const initialAnswers = {};
+        processedQuestions.forEach(question => {
+          initialAnswers[question.questionId] = null // Or any other default value
+        });
+        setSelectedAnswer(initialAnswers)
+      } catch (error) {
+        console.error("Fetching questions failed:", error)
+        setError("Failed to load questions. Please try again later.")
+      } finally {
+        setLoading(false)
+      }
     }
+
     if (game) {
       fetchQuestions().catch(console.error)
     }
   }, [game])
+
 
   const getIdClick = useCallback((event, question) => {
     const selectedValue = event.target.value
@@ -129,25 +143,41 @@ const App = () => {
     setAnswersSubmitted(false)
     setQuestions([])
     setSelectedAnswer({})
+    setError(null)
   }
 
+
+  if (error) {
+    return (
+      <div
+        className="error-container">
+        <p>{error}</p>
+        <button
+          className="back-home-button"
+          onClick={backToHome}
+        >
+          Back to home
+        </button>
+      </div>)
+  }
   return (
     <div className="app">
       {home && <HomePage
         handleClick={handleEnterClick}
       />}
       {game && <h1 className="quiz-heading">Quizzical</h1>}
-      {game && questionComponents}
-      {/* {error && <h1>There was an error loading the questions</h1>} */}
-      <div className="button-container">
-        {game && (
-          <button onClick={handleSubmitAnswers} className="submit-answers-button">
-            Submit Answers
-          </button>
-        )}
-        {game && <button onClick={backToHome} className="back-home-button" >{score === 5 ? "New Game" : "Back To Home"}</button>}
-
-      </div>
+      {game && loading && <LoadingSpinner />}
+      {game && !loading && questionComponents}
+      {game && !loading && (
+        <div className="button-container">
+          {game && (
+            <button onClick={handleSubmitAnswers} className="submit-answers-button">
+              Submit Answers
+            </button>
+          )}
+          {game && <button onClick={backToHome} className="back-home-button" >{score === 5 ? "New Game" : "Back To Home"}</button>}
+        </div>
+      )}
       {showConfetti && <Confetti
         width={window.innerWidth}
         height={window.innerHeight}
